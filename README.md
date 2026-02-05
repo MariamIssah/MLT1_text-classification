@@ -5,15 +5,11 @@ This project investigates the impact of different **word embedding techniques** 
 
 The study focuses on how traditional feature representations and distributed word embeddings interact with different model architectures, particularly sequence-based neural networks.
 
----
-
 ## Objectives
 - Compare the performance of multiple **word embedding techniques** for text classification
 - Analyze how embeddings interact with different **model architectures**
 - Evaluate models using consistent metrics and experimental settings
 - Produce a reproducible, well-documented academic-style study
-
----
 
 ## Dataset
 **PriceRunner Aggregate Dataset**
@@ -24,10 +20,6 @@ The study focuses on how traditional feature representations and distributed wor
 - **Source**: Aggregated e-commerce product listings  
 
 The dataset is stored in the `data/` directory and is shared across all experiments to ensure consistency.
-
----
-
----
 
 ## Models and Embeddings
 
@@ -47,8 +39,6 @@ Each model is evaluated using at least **three embedding techniques**:
 
 Additional embeddings (e.g., FastText) may be included where applicable.
 
----
-
 ## Preprocessing
 All notebooks follow a **shared preprocessing strategy**:
 - Lowercasing text
@@ -59,8 +49,6 @@ All notebooks follow a **shared preprocessing strategy**:
 
 Embedding-specific adaptations are documented within each notebook and discussed in the final report.
 
----
-
 ## Evaluation Metrics
 Models are evaluated using:
 - Accuracy
@@ -69,12 +57,3 @@ Models are evaluated using:
 - Confusion matrix (visualized for selected models)
 
 Results are saved in the `outputs/` directory and summarized in comparative tables in the final report.
-
----
-
-## How to Run the Project
-
-### 1. Clone the repository
-```bash
-git clone <repository-url>
-cd text-classification-embeddings
