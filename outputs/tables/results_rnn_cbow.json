@@ -1,0 +1,1 @@
+{"model": "RNN", "embedding": "CBOW", "accuracy": 0.8527, "precision_macro": null, "recall_macro": null, "f1_macro": null, "train_time_sec": null}
