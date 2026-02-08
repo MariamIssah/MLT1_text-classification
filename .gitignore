@@ -1,0 +1,26 @@
+# Trained model binaries (large; regenerate with the notebook)
+models/*.joblib
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Env / IDE
+.env
+.venv/
+venv/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
