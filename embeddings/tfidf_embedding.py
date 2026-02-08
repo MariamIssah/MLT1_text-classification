@@ -14,7 +14,7 @@ class TFIDFEmbedding:
     for consistent use across team members
     """
     
-    def __init__(self, max_features=10000, ngram_range=(1, 2), min_df=2, max_df=0.95):
+    def __init__(self, max_features=10000, ngram_range=(1, 2), min_df=2, max_df=0.95, sublinear_tf=True):
         """
         Initialize TF-IDF vectorizer
         
@@ -23,6 +23,7 @@ class TFIDFEmbedding:
             ngram_range: Range of n-grams to use (default: unigrams and bigrams)
             min_df: Minimum document frequency
             max_df: Maximum document frequency
+            sublinear_tf: Use 1+log(tf) instead of tf (often better for text classification)
         """
         self.max_features = max_features
         self.ngram_range = ngram_range
@@ -34,7 +35,8 @@ class TFIDFEmbedding:
             ngram_range=ngram_range,
             lowercase=False,  # Assume text is already preprocessed
             min_df=min_df,
-            max_df=max_df
+            max_df=max_df,
+            sublinear_tf=sublinear_tf
         )
         self.is_fitted = False
     

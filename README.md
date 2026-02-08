@@ -42,8 +42,11 @@ MLT1_text-classification/
 │   └── saved/                        # Saved embedding models (generated)
 ├── utils/
 │   └── preprocessing.py             # Text preprocessing utilities
-├── text_classification_svm.ipynb     # Main notebook (local)
-├── text_classification_svm_kaggle.ipynb  # Kaggle-ready notebook
+├── notebooks/
+│   ├── text_classification_svm.ipynb     # SVM notebook (local)
+│   ├── text_classification_svm_kaggle.ipynb  # SVM notebook (Kaggle)
+│   ├── lstm_model.ipynb
+│   └── gru_notebook.ipynb
 ├── requirements.txt
 └── README.md
 ```
@@ -65,9 +68,10 @@ nltk.download('wordnet')
 
 ### Usage
 
-1. Open `text_classification_svm.ipynb` and run all cells, or use `text_classification_svm_kaggle.ipynb` on Kaggle.
-2. Set `FAST_MODE = True` for a quicker run (fewer classes, smaller grid); set `False` for full data and tuning.
-3. The notebook loads data, builds embeddings (TF-IDF, Skip-gram, CBOW), trains SVM with tuning, and evaluates.
+1. **Local**: Open `notebooks/text_classification_svm.ipynb` from the **project root** (so `data/`, `embeddings/`, `utils/` resolve). In Jupyter/VSCode, set the kernel working directory to the project root if you open the file from `notebooks/`.
+2. **Kaggle**: Upload and run `notebooks/text_classification_svm_kaggle.ipynb` (self-contained; no local folders needed).
+3. Set `FAST_MODE = True` for a quicker run (fewer classes, smaller grid); set `False` for full data and tuning.
+4. The notebook loads data, builds embeddings (TF-IDF, Skip-gram, CBOW), trains SVM with tuning, and evaluates.
 
 ### Embeddings for Team Members
 
