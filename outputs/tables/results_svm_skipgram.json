@@ -1,0 +1,1 @@
+{"model": "SVM", "embedding": "Skip-gram", "accuracy": 0.443878, "precision_macro": 0.417582, "recall_macro": 0.448352, "f1_macro": 0.416353, "train_time_sec": null}

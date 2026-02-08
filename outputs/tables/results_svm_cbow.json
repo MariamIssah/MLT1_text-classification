@@ -1,0 +1,1 @@
+{"model": "SVM", "embedding": "CBOW", "accuracy": 0.423469, "precision_macro": 0.399451, "recall_macro": 0.423993, "f1_macro": 0.388741, "train_time_sec": null}

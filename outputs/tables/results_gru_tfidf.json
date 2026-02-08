@@ -1,0 +1,1 @@
+{"model": "GRU", "embedding": "TF-IDF", "accuracy": 0.97409, "precision_macro": null, "recall_macro": null, "f1_macro": null, "train_time_sec": null}

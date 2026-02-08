@@ -1,0 +1,1 @@
+{"model": "SVM", "embedding": "TF-IDF", "accuracy": 0.520408, "precision_macro": 0.548823, "recall_macro": 0.54304, "f1_macro": 0.537041, "train_time_sec": null}

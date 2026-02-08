@@ -12,7 +12,7 @@ Multiclass text classification: predict **product cluster/category** from **Prod
 
 ### Dataset: Product Classification and Clustering (PriceRunner)
 
-- **Source**: Collected from [PriceRunner](https://www.pricerunner.com/), a product comparison platform. Donated 8/6/2023.
+- **Source**: Collected from [PriceRunner](https://archive.ics.uci.edu/dataset/837/product+classification+and+clustering), a product comparison platform. Donated 8/6/2023.
 - **Instances**: 35,311 product offers.
 - **Categories**: 10 categories; 306 merchants.
 - **Characteristics**: Tabular, text; subject area: Business. Associated tasks: Classification, Clustering, Entity matching.
@@ -38,7 +38,49 @@ This dataset is relevant to Team 11 because most members work on product-related
 
 ---
 
-## 2. Repository Structure (Code Organization)
+## 2. Methodology
+
+### 2.1 Dataset and task
+
+We use the **PriceRunner Product Classification and Clustering** dataset (35,311 product offers, 10 categories, 306 merchants). The **input** is the **Product Title** (short text); the **target** is the **Cluster Label** (product category). The task is **multiclass text classification**. Original data had case folding and punctuation removal on titles; we apply additional preprocessing as below.
+
+### 2.2 Preprocessing (shared pipeline)
+
+A single preprocessing pipeline is agreed upon and used across all model–embedding experiments to ensure fair comparison:
+
+- **Cleaning**: Lowercasing; removal of URLs, emails, and non-alphabetic characters; normalization of whitespace.
+- **Tokenization**: NLTK tokenizer (`punkt_tab` or `punkt`).
+- **Filtering**: Minimum word length; optional stopword removal (NLTK English stopwords).
+- **Lemmatization**: NLTK WordNet lemmatizer.
+
+Implementation is in `utils/preprocessing.py`. The same pipeline produces (1) space-joined strings for TF-IDF and (2) token lists for Word2Vec-based embeddings (Skip-gram, CBOW).
+
+### 2.3 Embedding strategy (per embedding type)
+
+- **TF-IDF**: Preprocessed text as documents; scikit-learn `TfidfVectorizer` with configurable `max_features`, `ngram_range` (e.g. unigrams and bigrams), and `sublinear_tf`. No scaling before SVM (raw TF-IDF used).
+- **Skip-gram (Word2Vec)**: Tokenized sentences; gensim Word2Vec with `sg=1`, configurable `vector_size`, `window`, `min_count`, `epochs`. Document representation: mean of word vectors (or zero vector if no known words).
+- **CBOW (Word2Vec)**: Same tokenized input; Word2Vec with `sg=0`. Document vectors again by averaging word vectors.
+
+Embeddings are fitted on the training (or full) text data; train/validation/test splits are transformed consistently. This design allows direct comparison of the same classifier (or same family of classifiers) across the three embedding types.
+
+### 2.4 Models and experimental design
+
+- **Traditional ML (SVM)**: One team member implements **Support Vector Classification** (linear kernel, `class_weight='balanced'`). Hyperparameters (e.g. `C`) are tuned via GridSearchCV (e.g. 2-fold in fast mode). Three pipelines: SVM on TF-IDF, on Skip-gram, on CBOW — same splits and metrics.
+- **Sequence models (LSTM, GRU)**: Other members implement **LSTM** and **GRU** for sequence classification. Each model is trained separately with TF-IDF, Skip-gram, and CBOW (and optionally GloVe in LSTM). Same dataset and shared preprocessing; split and number of classes may differ per notebook (e.g. 10-class vs many-class setup) as documented in each notebook.
+
+For each model–embedding combination we train, tune where applicable, and evaluate on a held-out test set.
+
+### 2.5 Evaluation
+
+- **Metrics**: Accuracy; macro and weighted **precision**, **recall**, and **F1**; classification report; confusion matrix.
+- **Splits**: Train / validation / test (e.g. 70% / 15% / 15%), with stratification when feasible. SVM notebook uses configurable class and sample caps (e.g. top 100 classes, 12k train samples) for reproducibility and runtime.
+- **Analysis**: Comparison tables (performance across embeddings and, where applicable, across models); validation vs test curves or scatter (generalization); train vs validation scatter (overfitting); per-embedding confusion matrices and error analysis.
+
+This methodology supports the comparative analysis required by the assignment and the structure of the final report.
+
+---
+
+## 3. Repository Structure (Code Organization)
 
 ```
 MLT1_text-classification/
@@ -66,7 +108,7 @@ MLT1_text-classification/
 
 ---
 
-## 3. Dataset Exploration, Preprocessing & Embedding Strategy
+## 4. Dataset Exploration, Preprocessing & Embedding Strategy
 
 - **Exploratory data analysis (EDA)** is in the SVM notebook (`notebooks/text_classification_svm.ipynb`), including:
   - Label distribution (top classes)
@@ -80,7 +122,7 @@ MLT1_text-classification/
 
 ---
 
-## 4. Model Implementation & Experimental Design (This Repo: SVM)
+## 5. Model Implementation & Experimental Design (This Repo: SVM)
 
 - **Model**: Support Vector Machine (SVC, scikit-learn).
 - **Embeddings**: **TF-IDF**, **Skip-gram (Word2Vec)**, **CBOW (Word2Vec)** — at least three as required.
@@ -89,7 +131,7 @@ MLT1_text-classification/
 
 ---
 
-## 5. Experiment Tables & Results
+## 6. Experiment Tables & Results
 
 - **Tables**: The SVM notebook produces:
   - **Performance comparison table** on the test set (accuracy, precision_macro, recall_macro, f1_macro, precision_weighted, recall_weighted, f1_weighted) for TF-IDF, Skip-gram, CBOW.
@@ -104,19 +146,19 @@ MLT1_text-classification/
 
 ---
 
-## 6. How to Run (Reproducibility)
+## 7. How to Run (Reproducibility)
 
 1. **Environment**
    ```bash
    pip install -r requirements.txt
    ```
-2. **NLTK data** (once): `punkt_tab` (or `punkt`), `stopwords`, `wordnet` (notebook may prompt).
+2. **NLTK data** (once): `punkt_tab` (or `punkt`), `stopwords`, `wordnet` 
 3. **SVM notebook**: Open `notebooks/text_classification_svm.ipynb` from the **project root** so paths to `data/`, `embeddings/`, `utils/` are correct. Run all cells. Use `FAST_MODE = True` for a quicker run.
 4. **Saved embeddings**: Optional reuse via `embeddings/saved/` (see notebook for load examples). Models can be re-saved under `models/` (folder is in .gitignore for size).
 
 ---
 
-## 7. Deliverables (Assignment Requirements)
+## 8. Deliverables (Assignment Requirements)
 
 | Deliverable | Status |
 |-------------|--------|
@@ -127,7 +169,7 @@ MLT1_text-classification/
 
 ---
 
-## 8. Individual Technical Contribution (SVM Member)
+## 9. Individual Technical Contribution (SVM Member)
 
 - **Assigned model**: Traditional ML — **SVM**.
 - **Embeddings used**: **TF-IDF**, **Skip-gram (Word2Vec)**, **CBOW (Word2Vec)** (three required).
@@ -137,12 +179,12 @@ MLT1_text-classification/
 
 ---
 
-## 9. References & Citation
+## 10. References & Citation
 
 Methodology and embedding choices are justified in the **report** with references (e.g. TF-IDF, Word2Vec, SVM for text). This README does not duplicate the references section; see the submitted PDF.
 
 ---
 
-## 10. License & Contact
+## 11. License & Contact
 
 For course use only. Contact the team via the repository or the report for questions.
