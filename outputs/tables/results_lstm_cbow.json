@@ -1,0 +1,9 @@
+{
+  "model": "LSTM",
+  "embedding": "CBOW",
+  "accuracy": 0.9504459861248761,
+  "precision_macro": 0.9542725041150273,
+  "recall_macro": 0.9484646083487043,
+  "f1_macro": 0.9510427743363487,
+  "train_time_sec": 124.54
+}

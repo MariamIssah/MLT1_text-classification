@@ -1,0 +1,9 @@
+{
+  "model": "LSTM",
+  "embedding": "GloVe",
+  "accuracy": 0.9542687243381,
+  "precision_macro": 0.9575241998096999,
+  "recall_macro": 0.9526839442261379,
+  "f1_macro": 0.9547505702605579,
+  "train_time_sec": 354.72
+}

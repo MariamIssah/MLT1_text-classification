@@ -1,0 +1,9 @@
+{
+  "model": "LSTM",
+  "embedding": "TF-IDF",
+  "accuracy": 0.970975506158856,
+  "precision_macro": 0.9718000258508406,
+  "recall_macro": 0.9721705700609619,
+  "f1_macro": 0.9719631302246994,
+  "train_time_sec": 114.74
+}

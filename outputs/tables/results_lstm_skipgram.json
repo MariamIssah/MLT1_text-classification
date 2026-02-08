@@ -1,0 +1,9 @@
+{
+  "model": "LSTM",
+  "embedding": "Skipgram",
+  "accuracy": 0.9566756335834631,
+  "precision_macro": 0.9608784906376284,
+  "recall_macro": 0.9559861244526424,
+  "f1_macro": 0.9575682185656603,
+  "train_time_sec": 118.83
+}

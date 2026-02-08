@@ -1,8 +1,34 @@
-# MLT1 Text Classification - Traditional ML Model (SVM)
+# Comparative Analysis of Text Classification with Multiple Embeddings
 
-This repository contains the implementation of **Support Vector Machine (SVM)** for text classification using multiple embedding techniques.
+## Project Overview
+This project investigates the impact of different **word embedding techniques** on **text classification performance** across multiple model architectures. Each team member implements and evaluates **one classification model** using the **same dataset, preprocessing pipeline, and evaluation metrics**, enabling a fair and meaningful comparative analysis.
 
-## Project Structure
+This repository contains the **Traditional ML (SVM)** implementation: **Support Vector Machine** for text classification using TF-IDF, Skip-gram, and CBOW embeddings.
+
+---
+
+## Objectives
+- Compare the performance of multiple **word embedding techniques** for text classification
+- Analyze how embeddings interact with different **model architectures**
+- Evaluate models using consistent metrics and experimental settings
+- Produce a reproducible, well-documented academic-style study
+
+---
+
+## Dataset
+**PriceRunner Aggregate Dataset**
+- **Task**: Multiclass product category classification  
+- **Text field**: Product Title  
+- **Labels**: Cluster Label (product category)  
+- **Source**: Aggregated e-commerce product listings  
+
+The dataset is stored in the `data/` directory.
+
+---
+
+## This Repo: SVM Model
+
+### Project Structure
 
 ```
 MLT1_text-classification/
@@ -10,72 +36,76 @@ MLT1_text-classification/
 │   └── pricerunner_aggregate.csv    # Dataset
 ├── embeddings/
 │   ├── __init__.py
-│   ├── tfidf_embedding.py          # TF-IDF embedding module
-│   ├── skipgram_embedding.py       # Skip-gram embedding module
-│   ├── cbow_embedding.py           # CBOW embedding module
-│   └── saved/                       # Saved embedding models (generated)
+│   ├── tfidf_embedding.py            # TF-IDF embedding module
+│   ├── skipgram_embedding.py         # Skip-gram embedding module
+│   ├── cbow_embedding.py             # CBOW embedding module
+│   └── saved/                        # Saved embedding models (generated)
 ├── utils/
 │   └── preprocessing.py             # Text preprocessing utilities
-├── text_classification_svm.ipynb   # Main notebook
-├── requirements.txt                 # Dependencies
+├── text_classification_svm.ipynb     # Main notebook (local)
+├── text_classification_svm_kaggle.ipynb  # Kaggle-ready notebook
+├── requirements.txt
 └── README.md
 ```
 
-## Setup
+### Setup
 
 1. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-2. Download NLTK data (will be done automatically on first run):
+2. NLTK data (run once; or the notebook will prompt):
 ```python
 import nltk
-nltk.download('punkt')
+nltk.download('punkt_tab')  # or 'punkt'
 nltk.download('stopwords')
 nltk.download('wordnet')
 ```
 
-## Usage
+### Usage
 
-1. Open `text_classification_svm.ipynb` in Jupyter Notebook
-2. Run all cells to:
-   - Load and preprocess the dataset
-   - Create and save embeddings (TF-IDF, Skip-gram, CBOW)
-   - Train SVM with hyperparameter tuning for each embedding
-   - Evaluate and compare results
+1. Open `text_classification_svm.ipynb` and run all cells, or use `text_classification_svm_kaggle.ipynb` on Kaggle.
+2. Set `FAST_MODE = True` for a quicker run (fewer classes, smaller grid); set `False` for full data and tuning.
+3. The notebook loads data, builds embeddings (TF-IDF, Skip-gram, CBOW), trains SVM with tuning, and evaluates.
 
-## Embeddings for Team Members
+### Embeddings for Team Members
 
-The embeddings are saved in `embeddings/saved/` and can be reused by other team members:
+Saved embeddings in `embeddings/saved/` can be reused:
 
 ```python
 from embeddings.tfidf_embedding import TFIDFEmbedding
 from embeddings.skipgram_embedding import SkipGramEmbedding
 from embeddings.cbow_embedding import CBOWEmbedding
 
-# Load saved embeddings
 tfidf = TFIDFEmbedding()
 tfidf.load('embeddings/saved/tfidf_model.pkl')
-
 skipgram = SkipGramEmbedding()
 skipgram.load('embeddings/saved/skipgram_model.bin')
-
 cbow = CBOWEmbedding()
 cbow.load('embeddings/saved/cbow_model.bin')
 ```
 
-## Results
+### Model and Evaluation
 
-The notebook generates:
-- Performance comparison table
-- Visualizations (bar charts, confusion matrices)
-- Classification reports
-- Best hyperparameters for each embedding
-
-## Model: SVM
-
-- **Algorithm**: Support Vector Machine
-- **Hyperparameter Tuning**: GridSearchCV with cross-validation
+- **Algorithm**: Support Vector Machine (SVC)
+- **Hyperparameter Tuning**: GridSearchCV (C, kernel, class_weight; full grid when `FAST_MODE=False`)
 - **Embeddings**: TF-IDF, Skip-gram (Word2Vec), CBOW (Word2Vec)
-- **Evaluation Metrics**: Accuracy, Precision, Recall, F1-Score (macro and weighted)
+- **Metrics**: Accuracy, Precision, Recall, F1 (macro and weighted), classification report, confusion matrices
+
+---
+
+## Preprocessing (Shared)
+- Lowercasing, remove non-alphabetic characters, tokenization
+- Consistent train / validation / test split
+- NLTK stopwords and lemmatization
+
+---
+
+## Evaluation Metrics (Group)
+- Accuracy
+- Macro F1-score
+- Classification report
+- Confusion matrix
+
+Results from this notebook can be combined with other members’ results for the comparative report.
